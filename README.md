@@ -1,6 +1,4 @@
 # ETHWarsaw-hackapay
-Project created during ETHWarsaw, based on request-network
-# ETHWarsaw-hackapay
 
 ## Description
 Project created during ETHWarsaw, based on request-network.
@@ -28,5 +26,4 @@ Project created during ETHWarsaw, based on request-network.
 [Specify the license under which the project is released]
 
 ## Contact
-- GitHub: [@ndelarminat](https://github.com/ndelarminat)
-- Email: ndelarminat@aubay.com
+- GitHub: [@spoyte](https://github.com/spoyte)
