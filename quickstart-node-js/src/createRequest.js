@@ -1,18 +1,18 @@
-(async () => {
-  const {
-    RequestNetwork,
-    Types,
-    Utils,
-  } = require("@requestnetwork/request-client.js");
-  const {
-    EthereumPrivateKeySignatureProvider,
-  } = require("@requestnetwork/epk-signature");
-  const { config } = require("dotenv");
-  const { Wallet } = require("ethers");
+const {
+  RequestNetwork,
+  Types,
+  Utils,
+} = require("@requestnetwork/request-client.js");
+const {
+  EthereumPrivateKeySignatureProvider,
+} = require("@requestnetwork/epk-signature");
+const { config } = require("dotenv");
+const { Wallet } = require("ethers");
 
-  // Load environment variables from .env file
-  config();
+// Load environment variables from .env file
+config();
 
+async function createRequest(payerIdentity, expectedAmount, reason, dueDate) {
   const epkSignatureProvider = new EthereumPrivateKeySignatureProvider({
     method: Types.Signature.METHOD.ECDSA,
     privateKey: process.env.PAYEE_PRIVATE_KEY, // Must include 0x prefix
@@ -25,9 +25,7 @@
     signatureProvider: epkSignatureProvider,
   });
 
-  // In this example, the payee is also the payer and payment recipient.
   const payeeIdentity = new Wallet(process.env.PAYEE_PRIVATE_KEY).address;
-  const payerIdentity = payeeIdentity;
   const paymentRecipient = payeeIdentity;
   const feeRecipient = "0x0000000000000000000000000000000000000000";
 
@@ -38,7 +36,7 @@
         value: "0x370DE27fdb7D1Ff1e1BaA7D11c5820a324Cf623C",
         network: "sepolia",
       },
-      expectedAmount: "1000000000000000000",
+      expectedAmount: expectedAmount,
       payee: {
         type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
         value: payeeIdentity,
@@ -59,8 +57,8 @@
       },
     },
     contentData: {
-      reason: "🍕",
-      dueDate: "2023.06.16",
+      reason: reason,
+      dueDate: dueDate,
     },
     signer: {
       type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
@@ -70,5 +68,7 @@
 
   const request = await requestClient.createRequest(requestCreateParameters);
   const requestData = await request.waitForConfirmation();
-  console.log(JSON.stringify(requestData));
-})();
+  return requestData;
+}
+
+module.exports = createRequest;
