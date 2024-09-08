@@ -28,6 +28,10 @@ const Navbar = () => {
       name: "Create an Invoice",
       href: "/create-invoice",
     },
+    {
+      name: "Create Hackathon's Invoices",
+      href: "/auto-invoices",
+    },
   ];
 
   const supportLinks = [
